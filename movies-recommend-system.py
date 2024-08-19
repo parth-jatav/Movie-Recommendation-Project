@@ -4,68 +4,83 @@ import pandas as pd
 import requests
 import zipfile
 
+# Set the page configuration at the top
+st.set_page_config(page_title='Movie Recommender System', layout='wide')
+
+
+# Load data with caching
+@st.cache_data
+def load_data():
+    with zipfile.ZipFile('similarity.zip', 'r') as zip_ref:
+        with zip_ref.open('similarity.pkl') as file:
+            similarity = pickle.load(file)
+    movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
+    movies = pd.DataFrame(movies_dict)
+    return movies, similarity
+
+
+# Fetch movie poster from API with caching
+@st.cache_data
 def fetch_poster(movie_id):
-    response = requests.get('https://api.themoviedb.org/3/movie/{}?api_key=f9b93e48f0111c09389cacb5a8be56dc'.format(movie_id))
-    data = response.json()
-    print(data)
-    return 'https://image.tmdb.org/t/p/w500/' + data['poster_path']
+    try:
+        response = requests.get(
+            f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=f9b93e48f0111c09389cacb5a8be56dc')
+        data = response.json()
+        return f'https://image.tmdb.org/t/p/w500/{data["poster_path"]}'
+    except:
+        return 'https://via.placeholder.com/500x750?text=No+Poster+Available'
 
-movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
-# Path to the zip file
-zip_path = 'data.zip'
 
-# Path to the zip file
-zip_path = 'similarity.zip'
+# Load movie data and similarity matrix
+movies, similarity = load_data()
 
-# Open the zip file
-with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-    # Extract the similarity.pkl file
-    with zip_ref.open('similarity.pkl') as file:
-        # Load the pickle data
-        similarity = pickle.load(file)
-        
-movies = pd.DataFrame(movies_dict)
 
 def recommend(movie):
-    movie_index = movies[movies['title'] == movie].index[0]
-    distances = similarity[movie_index]
-    movie_list = sorted(list(enumerate(distances)), reverse = True, key = lambda x:x[1])[1:6]
+    try:
+        movie_index = movies[movies['title'] == movie].index[0]
+        distances = similarity[movie_index]
+        movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
 
-    recommended_movies = []
-    recommended_movies_poster = []
-    for i in movie_list:
-        movie_id = movies.iloc[i[0]].movie_id
-        recommended_movies.append(movies.iloc[i[0]].title)
-        #fetch poster from API
-        recommended_movies_poster.append(fetch_poster(movie_id))
-    return recommended_movies, recommended_movies_poster
+        recommended_movies = []
+        recommended_movies_poster = []
+        for i in movie_list:
+            movie_id = movies.iloc[i[0]].movie_id
+            recommended_movies.append(movies.iloc[i[0]].title)
+            recommended_movies_poster.append(fetch_poster(movie_id))
+        return recommended_movies, recommended_movies_poster
+    except:
+        return [], []
 
 
-st.title('Movie Recommender System')
+
+
+# Header
+st.markdown("""
+    <style>
+    .header {text-align: center; padding: 20px;}
+    </style>
+    <div class="header">
+    <h1>Movie Recommender System</h1>
+    <h4>Find Your Next Favorite Movie!</h4>
+    <p>Choose a movie and get recommendations based on your selection.</p>
+    </div>
+""", unsafe_allow_html=True)
 
 selected_movie_name = st.selectbox(
-    'Write Movie Name Here',
+    'Select a Movie:',
     movies['title'].values
 )
 
-if st.button('Recommend'):
-    names, posters = recommend(selected_movie_name)
-    col1, col2, col3, col4, col5 = st.columns(5)
+if st.button('Get Recommendations'):
+    with st.spinner('Fetching recommendations...'):
+        names, posters = recommend(selected_movie_name)
 
-    with col1:
-        st.text(names[0])
-        st.image(posters[0])
-
-    with col2:
-        st.text(names[1])
-        st.image(posters[1])
-
-    with col3:
-        st.text(names[2])
-        st.image(posters[2])
-    with col4:
-        st.text(names[3])
-        st.image(posters[3])
-    with col5:
-        st.text(names[4])
-        st.image(posters[4])
+    if names:
+        st.markdown("### Recommended Movies")
+        cols = st.columns(5)
+        for col, name, poster in zip(cols, names, posters):
+            with col:
+                st.image(poster, use_column_width=True)
+                st.subheader(name)
+    else:
+        st.error("Sorry, no recommendations found.")
