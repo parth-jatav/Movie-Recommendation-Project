@@ -89,10 +89,6 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 
 ![Coding](https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif)
 
-## 📜 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ## 🙌 Acknowledgments
 
 - Thanks to [TMDB](https://www.themoviedb.org/) for the movie data.
