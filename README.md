@@ -11,7 +11,7 @@ Your go-to tool for finding your next favorite movie!
 
 The **Movie Recommendation System** is a content-based machine learning project that suggests movies similar to a selected movie. Built with Python and Streamlit, this project offers a sleek and interactive web app to explore movie recommendations.
 
-![Movie Popcorn](https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif)
+![image](https://i.pinimg.com/originals/92/40/52/92405250a4bfb2a451c6bf1364a2006e.gif)
 
 ## 🏗️ Project Structure
 
@@ -35,7 +35,7 @@ The **Movie Recommendation System** is a content-based machine learning project 
 - **🚀 Deployment**: 
   - The app is deployed and ready for you to explore!
 
-![Web App Demo](https://media.giphy.com/media/l3vQXTnTzT7kq7g1i/giphy.gif)
+![Web App Demo](https://media4.giphy.com/media/GQty4dYXeVkOeMzqVx/200w.gif?cid=6c09b952rk40ysuij9jr1fla9v0cwc2dmlv06wfi007muutm&ep=v1_gifs_search&rid=200w.gif&ct=g)
 
 ## 🛠️ Installation
 
@@ -62,8 +62,6 @@ The **Movie Recommendation System** is a content-based machine learning project 
 2. Click the "Get Recommendations" button.
 3. View the recommended movies along with their posters.
 
-![Movie Posters](https://media.giphy.com/media/26FL1soZ3STRDSLGU/giphy.gif)
-
 ## 📂 Dataset
 
 - **Source**: Datasets are sourced from Kaggle:
@@ -74,8 +72,6 @@ The **Movie Recommendation System** is a content-based machine learning project 
 - **Content-Based Filtering**: Recommends movies based on metadata similarity.
 - **Interactive UI**: Built with Streamlit for a smooth user experience.
 - **Dynamic Posters**: Fetches movie posters from the TMDB API.
-
-![Interactive UI](https://media.giphy.com/media/xT9IgG50Fb7Mi0prBC/giphy.gif)
 
 ## 🛠️ Libraries Used
 
@@ -102,4 +98,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - Thanks to [TMDB](https://www.themoviedb.org/) for the movie data.
 - Kudos to Kaggle for hosting the datasets.
 
-![Thank You](https://media.giphy.com/media/l4FGGafcOHmrlQxGk/giphy.gif)
+![Thank You](https://64.media.tumblr.com/d0635fa4e4bf417b33f24bd481c21f88/tumblr_ppcabrYCWy1ue08b9o1_540.gif)
